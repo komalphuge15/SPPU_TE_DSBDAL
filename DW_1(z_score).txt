@@ -1,0 +1,41 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df=pd.read_csv("3_employees.csv")
+print(df)
+
+df.head()
+
+df.tail()
+
+df.isnull().sum()
+df.isnull().sum().sum()
+df.describe(include="all")
+print(f"dataframe has {df.shape[0]} rows and {df.shape[1]} columns")
+df.shape
+df.dtypes
+
+df['SALARY']=df['SALARY'].astype('float')
+print(df.dtypes)
+
+df['SALARY'] = df['SALARY'].fillna(df['SALARY'].median())
+print(df)
+
+from scipy.stats import zscore
+df['SALARY_Z']=zscore(df['SALARY'])
+plt.figure(figsize=(8,4))
+sns.boxplot(x=df['SALARY_Z'])
+plt.title("BOX PLOT OF SALARY")
+plt.show()
+
+df_encoded=pd.get_dummies(df,columns=['DEPARTMENT_ID','EMAIL'], drop_first=True)
+print(df_encoded.head())
+
+from scipy.stats import zscore
+df['SALARY_Z']=zscore(df['SALARY'])
+
+sns.boxplot(x=df['SALARY_Z'])
+plt.title("BOX PLOT OF SALARY")
+plt.show()

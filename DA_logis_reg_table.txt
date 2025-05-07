@@ -1,0 +1,31 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+df = pd.DataFrame({
+    'STUDY HOURS':[29, 15, 33, 48, 39],
+    'PASS/FAIL':[0,0,1,1,1] 
+})
+
+X = df[['STUDY HOURS']]
+y = df['PASS/FAIL']
+
+model = LogisticRegression()
+
+model.fit(X,y)
+
+def result(n):
+    n = pd.DataFrame([[n]], columns=['STUDY HOURS'])
+    output = model.predict(n)[0]
+    res = 'pass' if output==1 else 'fail'
+    return res
+
+# taking inputs
+result(int(input("Enter the study hours:")))
+
+result(int(input("Enter the study hours:")))
+
+
+
+

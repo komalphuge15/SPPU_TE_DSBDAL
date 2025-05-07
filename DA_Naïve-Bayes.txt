@@ -1,0 +1,41 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+df = pd.read_csv('datasets/IRIS.csv')
+
+df.shape
+
+df.info()
+
+X = df.iloc[:,0:-1]
+y = df.iloc[:,-1]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = GaussianNB()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+cm = confusion_matrix(y_test, y_pred)
+cm
+
+num_classes = cm.shape[0]
+
+# Calculate TP, FP, FN, TN for each class
+for i in range(num_classes):
+    TP = cm[i, i]  # Diagonal value
+    FP = cm[:, i].sum() - TP  # Sum of column excluding the diagonal
+    FN = cm[i, :].sum() - TP  # Sum of row excluding the diagonal
+    TN = cm.sum() - (TP + FP + FN)  # All other values
+
+    print(f"Class {i} - TP: {TP}, FP: {FP}, FN: {FN}, TN: {TN}")
+
+    accuracy = (TP + TN)/(TP + TN + FP + FN)
+    precision = TP/(TP + FP)
+    recall = TP/(TP + FN)
+    f1_score = 2 * ((precision * recall)/(precision + recall))
+    error_rate = 1 - accuracy
+    print(f'Accuracy: {accuracy:.4f}\nPrecision: {precision:.4f}\nRecall: {recall:.4f}\nF1-score: {f1_score:.4f}\nError Rate: {error_rate:.4f}\n')

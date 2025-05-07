@@ -1,0 +1,51 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+df = pd.read_csv('datasets/Social_Network_Ads.csv')
+
+df.head()
+
+df.info()
+
+mapping = {'Male':0, 'Female':1}
+df['Gender'] = df['Gender'].map(mapping)
+
+X = df.iloc[:,1:-1]
+y = df.iloc[:,-1]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuracy_score(y_test, y_pred)
+
+cm = confusion_matrix(y_test, y_pred)
+cm
+
+TN, FP, FN, TP = cm.ravel()
+
+print(f'TP: {TP}\tFP: {FP}\nTN: {TN}\tFN: {FN}')
+
+accuracy = (TP + TN)/(TP + TN + FP + FN)
+precision = TP/(TP + FP)
+recall = TP/(TP + FN)
+f1_score = 2 * ((precision * recall)/(precision + recall))
+error_rate = 1 - accuracy
+
+print(f'Accuracy: {accuracy:.4f}\nPrecision: {precision:.4f}\nRecall: {recall:.4f}\nF1-score: {f1_score:.4f}\nError Rate: {error_rate:.4f}')
+
+# Checking for an new value
+inputs = pd.DataFrame([[0, 20.0, 61000.0]], columns=['Gender', 'Age', 'EstimatedSalary'])
+
+inputs = sc.transform(inputs)
+model.predict(inputs)[0]

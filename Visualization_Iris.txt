@@ -1,0 +1,32 @@
+# Iris Data Visualization and Analysis
+
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the Iris dataset
+iris = sns.load_dataset('iris')
+
+# 1. Print the first few rows and data types
+print("\n--- Dataset Preview ---\n")
+print(iris.head())
+print("\n--- Feature Types ---\n")
+print(iris.dtypes)
+
+# 2. Create Histograms for each feature
+print("\n--- Plotting Histograms ---\n")
+iris.hist(figsize=(10, 8), color='skyblue', edgecolor='black')
+plt.suptitle("Histograms of Iris Dataset Features", fontsize=16)
+plt.tight_layout()
+plt.show()
+
+# 3. Create Box Plots for each feature
+print("\n--- Plotting Boxplots ---\n")
+iris.plot(kind='box', subplots=True, layout=(2,2), figsize=(10, 8), sharex=False, sharey=False)
+plt.suptitle("Boxplots of Iris Dataset Features", fontsize=16)
+plt.tight_layout()
+plt.show()
+
+# 4. Optional: Summary statistics for comparison and outlier detection
+print("\n--- Summary Statistics ---\n")
+print(iris.describe())

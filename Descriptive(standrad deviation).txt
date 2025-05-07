@@ -1,0 +1,30 @@
+import pandas as pd
+
+# Load the dataset
+df = pd.read_csv('3_employees.csv')
+
+# Display max, std, and covariance for numeric columns
+print("Maximum values:\n", df.select_dtypes(include='number').max())
+print("\nStandard deviation:\n", df.select_dtypes(include='number').std())
+print("\nCovariance matrix:\n", df.select_dtypes(include='number').cov())
+
+
+df['SALARY_GROUP'] = pd.cut(df['SALARY'], bins=[0, 30000, 60000, 90000, 120000], 
+                            labels=["0-30K", "30K-60K", "60K-90K", "90K-120K"], include_lowest=True)
+
+# List with numeric value for each age group (e.g., average salary per group)
+salary_list = df.groupby('SALARY_GROUP')['SALARY'].mean().tolist()
+print("\nAverage salary by age group:", salary_list)
+
+job_counts = df['JOB_ID'].value_counts()
+print("Count of each JOB_ID:\n", job_counts)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Histogram
+sns.histplot(df['SALARY'], kde=True)
+plt.title('Salary Distribution')
+plt.xlabel('Salary')
+plt.ylabel('Frequency')
+plt.show()

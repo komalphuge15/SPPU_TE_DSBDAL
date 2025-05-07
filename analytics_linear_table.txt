@@ -1,0 +1,43 @@
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Step 1: Load the dataset
+data = {
+    'Experience': [5, 7, 9, 12, 18, 20],
+    'Salary': [20000, 25000, 40000, 60000, 80000, 110000]
+}
+
+df = pd.DataFrame(data)
+
+# Step 2: Split data into features (X) and target (y)
+X = df[['Experience']]  # Independent variable (Experience)
+y = df['Salary']       # Dependent variable (Salary)
+
+# Step 3: Create the Linear Regression Model
+model = LinearRegression()
+
+# Step 4: Fit the model to the data
+model.fit(X, y)
+
+# Step 5: Predict salary for 15 years of experience
+predicted_salary = model.predict([[15]])  # Predict salary for 15 years of experience
+print(f"Predicted Salary for 15 years of experience: {predicted_salary[0]}")
+
+# Step 6: Plot the data points and the regression line
+plt.scatter(X, y, color='blue', label='Data Points')
+plt.plot(X, model.predict(X), color='red', label='Regression Line')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.title('Linear Regression: Salary vs Experience')
+plt.legend()
+plt.show()
+
+# Optional: Calculate and display model performance metrics
+y_pred = model.predict(X)
+mse = mean_squared_error(y, y_pred)
+print(f"Mean Squared Error: {mse}")
