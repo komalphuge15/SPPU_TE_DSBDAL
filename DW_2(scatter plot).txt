@@ -33,3 +33,10 @@ for col in numeric_cols:
     print(f"{col}-->Average is: {avg}")
     print(f"{col}-->Maximum value is: {max_val}")
 
+plt.scatter(df['DSBDA'], df['WT'], color='green')
+plt.xlabel("DSBDA")
+plt.ylabel("WT")
+plt.title("DSBDA vs WT Performance")
+plt.grid(True)
+plt.show()
+
